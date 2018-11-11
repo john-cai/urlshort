@@ -1,0 +1,22 @@
+version: '3'
+services:
+  shortener:
+    image: shortener
+    command: /shortener
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_ADDR=db:5432
+      - POSTGRES_DB=postgres
+      - PREFIX=http://localhost:8080
+      - PORT=80
+    ports: 
+      - 8080:80
+
+  db:
+    image: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./database/migration:/docker-entrypoint-initdb.d
